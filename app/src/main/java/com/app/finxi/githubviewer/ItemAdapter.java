@@ -1,8 +1,12 @@
 package com.app.finxi.githubviewer;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +14,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.finxi.githubviewer.api.Client;
+import com.app.finxi.githubviewer.api.Service;
 import com.app.finxi.githubviewer.controller.DetailActivity;
+import com.app.finxi.githubviewer.controller.MainActivity;
 import com.app.finxi.githubviewer.model.Item;
+import com.app.finxi.githubviewer.model.ItemResponse;
+import com.app.finxi.githubviewer.model.RepositoryItem;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
@@ -46,19 +59,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 .apply(new RequestOptions()
                         .placeholder(R.drawable.load))
                 .into(viewHolder.imageView);
-
-        /*Picasso.Builder builder = new Picasso.Builder(MyApplication.getAppContext());
-        Picasso picasso = builder.build();
-        picasso.load(items.get(i).getAvatarUrl() + "")
-                .fit()
-                .placeholder(R.drawable.load)
-                .noFade()
-                .into(viewHolder.imageView);*/
-
-        /*Picasso.get()
-                .load(items.get(i).getAvatarUrl())
-                .placeholder(R.drawable.load)
-                .into(viewHolder.imageView);*/
     }
 
     @Override
@@ -66,12 +66,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         private TextView username, repo_name, description, forks, stars;
         private ImageView imageView;
 
 
-        public ViewHolder(View view) {
+        ViewHolder(final View view) {
             super(view);
 
 
@@ -85,20 +85,39 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             //on item click
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
-                        Item clickedDataItem = items.get(pos);
-                        Intent intent = new Intent(context, DetailActivity.class);
-                        intent.putExtra("login", items.get(pos).getLogin());
-                        //intent.putExtra("html_url", items.get(pos).getHtmlUrl());
-                        //intent.putExtra("avatar_url", items.get(pos).getAvatarUrl());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                        Toast.makeText(v.getContext(), "You clicked on user" + clickedDataItem.getLogin(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+                public void onClick(final View v) {
+                    final int pos = getAdapterPosition();
 
+                    Client Client = new Client();
+                    Service apiService =
+                            Client.getClient().create(Service.class);
+
+                    Call<RepositoryItem> call = apiService.getRepository("");
+                    call.enqueue(new Callback<RepositoryItem>() {
+                        @Override
+                        public void onResponse(Call<RepositoryItem> call, Response<RepositoryItem> response) {
+                            if (pos != RecyclerView.NO_POSITION) {
+
+                                Item clickedDataItem = items.get(pos);
+
+                                Intent intent = new Intent(context, DetailActivity.class);
+                                intent.putExtra("login", items.get(pos).getOwner().getLogin());
+                                intent.putExtra("avatar_url", items.get(pos).getOwner().getAvatar_url());
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                context.startActivity(intent);
+                                Toast.makeText(v.getContext(), "You clicked on user" + clickedDataItem.getOwner().getLogin(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RepositoryItem> call, Throwable t) {
+                            Log.d("Error", t.getMessage());
+                            Toast.makeText(context, "Erro ao carregar os dados!", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
             });
         }
     }

@@ -10,10 +10,6 @@ public class Item {
     @Expose
     private String repoName;
 
-    @SerializedName("login")
-    @Expose
-    private String login;
-
     @SerializedName("description")
     @Expose
     private String description;
@@ -30,13 +26,8 @@ public class Item {
     @Expose
     private Owner owner = new Owner();
 
-    public Item(String repoName, String login, String description, String forks, String stars) {
-        this.repoName = repoName;
-        this.login = login;
-        this.description = description;
-        this.forks = forks;
-        this.stars = stars;
-    }
+    @SerializedName("id")
+    private String repoId;
 
     public String getRepoName() {
         return repoName;
@@ -44,14 +35,6 @@ public class Item {
 
     public void setRepoName(String repoName) {
         this.repoName = repoName;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getDescription() {
@@ -84,5 +67,13 @@ public class Item {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public String getRepoId() {
+        return repoId;
+    }
+
+    public void setRepoId(String repoId) {
+        this.repoId = repoId;
     }
 }

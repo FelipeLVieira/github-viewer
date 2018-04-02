@@ -12,6 +12,10 @@ public class Owner {
     @Expose
     private String login;
 
+    @SerializedName("id")
+    @Expose
+    private String ownerId;
+
     public String getAvatar_url() {
         return avatar_url;
     }
@@ -26,5 +30,13 @@ public class Owner {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 }
