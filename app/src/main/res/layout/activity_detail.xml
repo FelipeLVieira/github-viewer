@@ -1,55 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/user_image_header"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="310dp"
-        android:fitsSystemWindows="true"
-        android:scaleType="fitXY" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_image_header"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Username"
-        android:textAlignment="center"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="match_parent"
+            android:layout_height="310dp"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitXY" />
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
-        android:textSize="20dp" />
+        <TextView
+            android:id="@+id/username_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_image"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Autor"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/githublink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/username"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Github Profile Link"
-        android:textAlignment="center"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username_label"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/link"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/githublink"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
-        android:textSize="20dp" />
+        <TextView
+            android:id="@+id/pull_request_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Nome do Pull Request"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/pull_request_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pull_request_label"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/pull_request_date_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pull_request_name"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Data do Pull Request"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/pull_request_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pull_request_date_label"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/pull_request_body_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pull_request_date"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Corpo do Pull Request"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/pull_request_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pull_request_body_label"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</ScrollView>

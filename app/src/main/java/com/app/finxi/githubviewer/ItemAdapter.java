@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 import com.app.finxi.githubviewer.controller.DetailActivity;
 import com.app.finxi.githubviewer.model.Item;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -33,14 +34,31 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ItemAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.title.setText(items.get(i).getLogin());
-        viewHolder.githublink1.setText(items.get(i).getHtmlUrl());
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        viewHolder.username.setText(items.get(i).getOwner().getLogin());
+        viewHolder.repo_name.setText(items.get(i).getRepoName());
+        viewHolder.description.setText(items.get(i).getDescription());
+        viewHolder.forks.setText(items.get(i).getForks());
+        viewHolder.stars.setText(items.get(i).getStars());
 
-        Picasso.get()
+        Glide.with(context)
+                .load(items.get(i).getOwner().getAvatar_url())
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.load))
+                .into(viewHolder.imageView);
+
+        /*Picasso.Builder builder = new Picasso.Builder(MyApplication.getAppContext());
+        Picasso picasso = builder.build();
+        picasso.load(items.get(i).getAvatarUrl() + "")
+                .fit()
+                .placeholder(R.drawable.load)
+                .noFade()
+                .into(viewHolder.imageView);*/
+
+        /*Picasso.get()
                 .load(items.get(i).getAvatarUrl())
                 .placeholder(R.drawable.load)
-                .into(viewHolder.imageView);
+                .into(viewHolder.imageView);*/
     }
 
     @Override
@@ -49,15 +67,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, githublink1;
+        private TextView username, repo_name, description, forks, stars;
         private ImageView imageView;
 
 
         public ViewHolder(View view) {
             super(view);
-            title = view.findViewById(R.id.title);
-            githublink1 = view.findViewById(R.id.githublink1);
+
+
             imageView = view.findViewById(R.id.cover);
+            username = view.findViewById(R.id.username);
+            repo_name = view.findViewById(R.id.repo_name);
+            forks = view.findViewById(R.id.forks);
+            stars = view.findViewById(R.id.stars);
+            description = view.findViewById(R.id.descricao);
 
             //on item click
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +91,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                         Item clickedDataItem = items.get(pos);
                         Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("login", items.get(pos).getLogin());
-                        intent.putExtra("html_url", items.get(pos).getHtmlUrl());
-                        intent.putExtra("avatar_url", items.get(pos).getAvatarUrl());
+                        //intent.putExtra("html_url", items.get(pos).getHtmlUrl());
+                        //intent.putExtra("avatar_url", items.get(pos).getAvatarUrl());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
-                        Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getLogin(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), "You clicked on user" + clickedDataItem.getLogin(), Toast.LENGTH_SHORT).show();
                     }
                 }
 

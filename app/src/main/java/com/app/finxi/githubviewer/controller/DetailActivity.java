@@ -28,10 +28,10 @@ public class DetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        imageView = findViewById(R.id.user_image_header);
+        imageView = findViewById(R.id.user_image);
         Username = findViewById(R.id.username);
 
-        Link = findViewById(R.id.link);
+        Link = findViewById(R.id.pull_request_name);
 
         String username = getIntent().getExtras().getString("login");
         String avatarUrl = getIntent().getExtras().getString("avatar_url");

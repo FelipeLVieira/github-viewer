@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="200dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
@@ -18,34 +18,129 @@
             android:id="@+id/cover"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:scaleType="fitXY" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/username_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/cover"
-            android:text="Username"
-            android:textAppearance="?android:textAppearanceLarge"
+            android:layout_alignTop="@+id/cover"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/cover"
+            android:text="Autor"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/githublink1"
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/cover"
-            android:text="GithubLink"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textStyle="bold"
-            android:visibility="invisible" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/cover"
+            android:layout_marginEnd="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_toEndOf="@+id/username_label"
+            android:text="Autor"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/repo_name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/cover"
+            android:text="Repositório"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/repo_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/username"
+            android:layout_marginEnd="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_toEndOf="@+id/repo_name_label"
+            android:text="Repositório"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/stars_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/repo_name_label"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/cover"
+            android:text="Estrelas"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/repo_name"
+            android:layout_marginEnd="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_toEndOf="@+id/stars_label"
+            android:text="Estrelas"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/forks_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stars_label"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/cover"
+            android:text="Forks"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/forks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/stars"
+            android:layout_marginEnd="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_toEndOf="@+id/stars_label"
+            android:text="Forks"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/descricao_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/forks_label"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/cover"
+            android:text="Descrição"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/descricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/forks"
+            android:layout_marginEnd="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_toEndOf="@+id/descricao_label"
+            android:text="Descrição"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

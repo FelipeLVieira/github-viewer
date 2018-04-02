@@ -7,6 +7,8 @@ import retrofit2.http.GET;
 
 
 public interface Service {
-    @GET("/search/users?q=language:java+location:lagos")
+    //"/search/repositories?q=language:java"
+    //"/search/users?q=language:java+location:lagos"
+    @GET("/search/repositories?q=language:java")
     Call<ItemResponse> getItems();
 }
