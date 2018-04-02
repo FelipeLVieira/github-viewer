@@ -3,6 +3,8 @@ package com.app.finxi.githubviewer.api;
 import com.app.finxi.githubviewer.model.ItemResponse;
 import com.app.finxi.githubviewer.model.RepositoryItem;
 
+import org.json.JSONArray;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
@@ -15,7 +17,7 @@ public interface Service {
     Call<ItemResponse> getItems();
 
     @GET
-    Call<RepositoryItem> getRepository(
+    Call<JSONArray> getRepository(
             @Url String repoUrl
     );
 }

@@ -24,7 +24,7 @@ public class Item {
 
     @SerializedName("owner")
     @Expose
-    private Owner owner = new Owner();
+    private ItemOwner itemOwner = new ItemOwner();
 
     @SerializedName("id")
     private String repoId;
@@ -61,12 +61,12 @@ public class Item {
         this.stars = stars;
     }
 
-    public Owner getOwner() {
-        return owner;
+    public ItemOwner getItemOwner() {
+        return itemOwner;
     }
 
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public void setItemOwner(ItemOwner itemOwner) {
+        this.itemOwner = itemOwner;
     }
 
     public String getRepoId() {

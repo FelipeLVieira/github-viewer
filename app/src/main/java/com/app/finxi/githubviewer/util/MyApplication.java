@@ -1,4 +1,4 @@
-package com.app.finxi.githubviewer;
+package com.app.finxi.githubviewer.util;
 
 import android.app.Application;
 import android.content.Context;

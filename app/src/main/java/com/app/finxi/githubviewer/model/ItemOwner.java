@@ -3,7 +3,7 @@ package com.app.finxi.githubviewer.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Owner {
+public class ItemOwner {
     @SerializedName("avatar_url")
     @Expose
     private String avatar_url;
