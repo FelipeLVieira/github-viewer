@@ -21,7 +21,7 @@
         </activity>
 
         <activity
-            android:name=".controller.RepositoryActivity"
+            android:name=".controller.PullRequestActivity"
             android:parentActivityName=".controller.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -30,10 +30,10 @@
 
         <activity
             android:name=".controller.DetailActivity"
-            android:parentActivityName=".controller.RepositoryActivity">
+            android:parentActivityName=".controller.PullRequestActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".controller.RepositoryActivity" />
+                android:value=".controller.PullRequestActivity" />
         </activity>
     </application>
 

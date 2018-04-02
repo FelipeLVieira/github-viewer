@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.finxi.githubviewer.adapter.ItemAdapter;
 import com.app.finxi.githubviewer.R;
+import com.app.finxi.githubviewer.adapter.ItemAdapter;
 import com.app.finxi.githubviewer.api.Client;
 import com.app.finxi.githubviewer.api.Service;
 import com.app.finxi.githubviewer.model.Item;

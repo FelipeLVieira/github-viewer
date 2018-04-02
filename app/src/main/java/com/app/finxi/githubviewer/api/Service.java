@@ -1,7 +1,7 @@
 package com.app.finxi.githubviewer.api;
 
 import com.app.finxi.githubviewer.model.ItemResponse;
-import com.app.finxi.githubviewer.model.RepositoryItem;
+import com.app.finxi.githubviewer.model.PullRequestItemResponse;
 
 import org.json.JSONArray;
 
@@ -17,7 +17,8 @@ public interface Service {
     Call<ItemResponse> getItems();
 
     @GET
-    Call<JSONArray> getRepository(
-            @Url String repoUrl
-    );
+    Call<PullRequestItemResponse> getPullRequests(@Url String repoUrl);
+
+    @GET
+    Call<JSONArray> getPullRequestJSON(@Url String repoUrl);
 }

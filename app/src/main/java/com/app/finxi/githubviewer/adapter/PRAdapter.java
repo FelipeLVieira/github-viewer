@@ -9,20 +9,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.finxi.githubviewer.R;
+import com.app.finxi.githubviewer.model.PullRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
-    private List<HashMap<String, String>> items;
+    private List<PullRequest> pullRequests;
     private Context context;
 
-    public PRAdapter(Context applicationContext, List<HashMap<String, String>> itemsList) {
+    public PRAdapter(Context applicationContext, List<PullRequest> pullRequests) {
         this.context = applicationContext;
-        this.items = itemsList;
+        this.pullRequests = new ArrayList<PullRequest>(pullRequests);
     }
 
     @Override
@@ -33,13 +34,15 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.username.setText(items.get(i).get("login"));
+        /*viewHolder.username.setText(items.get(i).get("login"));
         viewHolder.pr_name.setText(items.get(i).get("name"));
         viewHolder.pr_body.setText(items.get(i).get("body"));
-        viewHolder.pr_date.setText(items.get(i).get("created_at"));
+        viewHolder.pr_date.setText(items.get(i).get("created_at"));*/
+
+        viewHolder.username.setText(pullRequests.get(i).getUser().getLogin());
 
         Glide.with(context)
-                .load(items.get(i).get("avatar_url"))
+                .load(pullRequests.get(i).getUser().getAvatar_url())
                 .apply(new RequestOptions()
                         .placeholder(R.drawable.load))
                 .into(viewHolder.imageView);
@@ -47,7 +50,7 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return pullRequests.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,7 +67,7 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
             pr_date = view.findViewById(R.id.pull_request_date);
             pr_body = view.findViewById(R.id.pull_request_body);
 
-            //ir para a nova activity para gerar a lista de repositórios
+            //ir para o detalhe do repositório
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {

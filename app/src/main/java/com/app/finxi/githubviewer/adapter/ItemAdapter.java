@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.finxi.githubviewer.R;
-import com.app.finxi.githubviewer.controller.RepositoryActivity;
+import com.app.finxi.githubviewer.controller.PullRequestActivity;
 import com.app.finxi.githubviewer.model.Item;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -78,7 +78,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                             + items.get(pos).getItemOwner().getLogin() + "/"
                             + items.get(pos).getRepoId() + "/issues";
 
-                    Intent intent = new Intent(context, RepositoryActivity.class);
+                    Intent intent = new Intent(context, PullRequestActivity.class);
                     intent.putExtra("repo_url", repoUrl);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

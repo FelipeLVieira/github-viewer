@@ -2,13 +2,14 @@ package com.app.finxi.githubviewer.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OwnerAttributes {
+public class UserAttributes {
 
     @SerializedName("login")
     private String login;
 
     @SerializedName("avatar_url")
     private String avatar_url;
+
 
     public String getLogin() {
         return login;

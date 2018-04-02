@@ -11,25 +11,26 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.finxi.githubviewer.adapter.PRAdapter;
 import com.app.finxi.githubviewer.R;
+import com.app.finxi.githubviewer.adapter.PRAdapter;
 import com.app.finxi.githubviewer.api.Client;
 import com.app.finxi.githubviewer.api.Service;
 import com.app.finxi.githubviewer.model.Item;
-import com.app.finxi.githubviewer.model.ItemResponse;
+import com.app.finxi.githubviewer.model.PullRequest;
+import com.app.finxi.githubviewer.model.PullRequestItemResponse;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RepositoryActivity extends AppCompatActivity {
+public class PullRequestActivity extends AppCompatActivity {
 
     TextView Disconnected;
     ProgressDialog pd;
@@ -51,8 +52,8 @@ public class RepositoryActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadJSON();
-                Toast.makeText(RepositoryActivity.this, "Pull requests do Github recarregados", Toast.LENGTH_SHORT).show();
+                loadPrJSON();
+                Toast.makeText(PullRequestActivity.this, "Pull requests do Github recarregados", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -65,38 +66,41 @@ public class RepositoryActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewRep);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.smoothScrollToPosition(0);
-        loadJSON();
+        loadPrJSON();
     }
 
-    private void loadJSON() {
+    private void loadPrJSON() {
         Disconnected = findViewById(R.id.disconnectedRep);
         try {
 
-            repoUrl = getIntent().getExtras().getString("repo_url");
+            repoUrl = Objects.requireNonNull(getIntent().getExtras()).getString("repo_url");
 
             Client Client = new Client();
             Service apiService =
                     Client.getClient().create(Service.class);
-            Call<JSONArray> call = apiService.getRepository(repoUrl);
-            call.enqueue(new Callback<JSONArray>() {
+            Call<PullRequestItemResponse> call = apiService.getPullRequests(repoUrl);
+            call.enqueue(new Callback<PullRequestItemResponse>() {
                 @Override
-                public void onResponse(Call<JSONArray> call, Response<JSONArray> response) {
+                public void onResponse(Call<PullRequestItemResponse> call, Response<PullRequestItemResponse> response) {
 
-                    JSONArray json = null;
+                    /*JSONArray json = null;
                     HashMap<String, String> map = null;
-                    JSONObject jsonObject = null;
-                    JSONObject innerJSONobj = null;
+                    JSONObject jsonObject = new JSONObject();
+                    JSONObject innerJSONobj = new JSONObject();
                     List<HashMap<String, String>> repoItems = null;
 
                     try {
+
+                        //prList = response.body().getPullRequests();
+
                         json = new JSONArray(response.body());
 
-                        for(int i=0;i<json.length();i++){
-                            map = new HashMap<String, String>();
+                        for (int i = 0; i < json.length(); i++) {
+                            map = new HashMap<>();
                             jsonObject = json.getJSONObject(i);
                             innerJSONobj = jsonObject.getJSONObject("user");
 
-                            map.put("id",  jsonObject.getString("id"));
+                            map.put("id", jsonObject.getString("id"));
                             map.put("number", jsonObject.getString("number"));
                             map.put("title", jsonObject.getString("title"));
                             map.put("body", jsonObject.getString("body"));
@@ -107,19 +111,21 @@ public class RepositoryActivity extends AppCompatActivity {
                             repoItems.add(map);
                         }
 
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
-                    }
-                    recyclerView.setAdapter(new PRAdapter(getApplicationContext(), repoItems));
+                    } catch (Exception ex) {
+                        Log.d("Error", ex.getMessage());
+                    }*/
+
+                    List<PullRequest> prList = response.body().getPullRequests();
+                    recyclerView.setAdapter(new PRAdapter(getApplicationContext(), prList));
                     recyclerView.smoothScrollToPosition(0);
                     swipeContainer.setRefreshing(false);
                     pd.hide();
                 }
 
                 @Override
-                public void onFailure(Call<JSONArray> call, Throwable t) {
+                public void onFailure(Call<PullRequestItemResponse> call, Throwable t) {
                     Log.d("Error", t.getMessage());
-                    Toast.makeText(RepositoryActivity.this, "Erro ao carregar os dados!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PullRequestActivity.this, "Erro ao carregar os dados!", Toast.LENGTH_SHORT).show();
                     Disconnected.setVisibility(View.VISIBLE);
                     pd.hide();
 
