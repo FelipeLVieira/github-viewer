@@ -1,9 +1,9 @@
 package com.app.finxi.githubviewer.api;
 
 import com.app.finxi.githubviewer.model.ItemResponse;
-import com.app.finxi.githubviewer.model.PullRequestItemResponse;
+import com.app.finxi.githubviewer.model.PullRequest;
 
-import org.json.JSONArray;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -11,14 +11,10 @@ import retrofit2.http.Url;
 
 
 public interface Service {
-    //"/search/repositories?q=language:java"
-    //"/search/users?q=language:java+location:lagos"
     @GET("/search/repositories?q=language:java")
     Call<ItemResponse> getItems();
 
     @GET
-    Call<PullRequestItemResponse> getPullRequests(@Url String repoUrl);
+    Call<List<PullRequest>> getPullRequests(@Url String url);
 
-    @GET
-    Call<JSONArray> getPullRequestJSON(@Url String repoUrl);
 }

@@ -26,6 +26,10 @@ public class PullRequest {
     @Expose
     private String created_at;
 
+    @SerializedName("html_url")
+    @Expose
+    private String html_url;
+
     @SerializedName("user")
     @Expose
     private UserAttributes user;
@@ -76,5 +80,13 @@ public class PullRequest {
 
     public void setUser(UserAttributes user) {
         this.user = user;
+    }
+
+    public String getHtml_url() {
+        return html_url;
+    }
+
+    public void setHtml_url(String html_url) {
+        this.html_url = html_url;
     }
 }

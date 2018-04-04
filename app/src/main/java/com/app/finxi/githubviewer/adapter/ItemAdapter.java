@@ -76,7 +76,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
                     String repoUrl = "https://api.github.com/repos/"
                             + items.get(pos).getItemOwner().getLogin() + "/"
-                            + items.get(pos).getRepoId() + "/issues";
+                            + items.get(pos).getRepoName() + "/issues";
 
                     Intent intent = new Intent(context, PullRequestActivity.class);
                     intent.putExtra("repo_url", repoUrl);

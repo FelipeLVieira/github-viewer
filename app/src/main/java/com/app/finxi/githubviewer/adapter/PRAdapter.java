@@ -1,14 +1,19 @@
 package com.app.finxi.githubviewer.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.finxi.githubviewer.R;
+import com.app.finxi.githubviewer.controller.DetailActivity;
 import com.app.finxi.githubviewer.model.PullRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,7 +28,7 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
 
     public PRAdapter(Context applicationContext, List<PullRequest> pullRequests) {
         this.context = applicationContext;
-        this.pullRequests = new ArrayList<PullRequest>(pullRequests);
+        this.pullRequests = new ArrayList<>(pullRequests);
     }
 
     @Override
@@ -34,10 +39,9 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        /*viewHolder.username.setText(items.get(i).get("login"));
-        viewHolder.pr_name.setText(items.get(i).get("name"));
-        viewHolder.pr_body.setText(items.get(i).get("body"));
-        viewHolder.pr_date.setText(items.get(i).get("created_at"));*/
+        viewHolder.pr_name.setText(pullRequests.get(i).getCreated_at());
+        viewHolder.pr_body.setText(pullRequests.get(i).getBody());
+        viewHolder.pr_date.setText(pullRequests.get(i).getTitle());
 
         viewHolder.username.setText(pullRequests.get(i).getUser().getLogin());
 
@@ -73,30 +77,16 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
                 public void onClick(final View v) {
                     final int pos = getAdapterPosition();
 
-                    /*call.enqueue(new Callback<RepositoryItem>() {
-                        @Override
-                        public void onResponse(Call<RepositoryItem> call, Response<RepositoryItem> response) {
-                            if (pos != RecyclerView.NO_POSITION) {
+                    PullRequest clickedDataPR = pullRequests.get(pos);
 
-                                Item clickedDataItem = items.get(pos);
+                    String url = clickedDataPR.getHtml_url();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
 
-                                Intent intent = new Intent(context, DetailActivity.class);
-                                intent.putExtra("login", items.get(pos).getItemOwner().getLogin());
-                                intent.putExtra("avatar_url", items.get(pos).getItemOwner().getAvatar_url());
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                                context.startActivity(intent);
-                                Toast.makeText(v.getContext(), "You clicked on user" + clickedDataItem.getItemOwner().getLogin(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RepositoryItem> call, Throwable t) {
-                            Log.d("Error", t.getMessage());
-                            Toast.makeText(context, "Erro ao carregar os dados!", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });*/
+                    context.startActivity(intent);
+                    Toast.makeText(v.getContext(), "You clicked on user" + clickedDataPR.getUser().getLogin(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

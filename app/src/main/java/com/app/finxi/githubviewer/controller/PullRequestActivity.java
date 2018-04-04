@@ -17,12 +17,7 @@ import com.app.finxi.githubviewer.api.Client;
 import com.app.finxi.githubviewer.api.Service;
 import com.app.finxi.githubviewer.model.Item;
 import com.app.finxi.githubviewer.model.PullRequest;
-import com.app.finxi.githubviewer.model.PullRequestItemResponse;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,56 +69,26 @@ public class PullRequestActivity extends AppCompatActivity {
         try {
 
             repoUrl = Objects.requireNonNull(getIntent().getExtras()).getString("repo_url");
+            Log.e("TESTANDOOOOOOOO", repoUrl);
 
             Client Client = new Client();
             Service apiService =
                     Client.getClient().create(Service.class);
-            Call<PullRequestItemResponse> call = apiService.getPullRequests(repoUrl);
-            call.enqueue(new Callback<PullRequestItemResponse>() {
+            Call<List<PullRequest>> call = apiService.getPullRequests(repoUrl);
+            call.enqueue(new Callback<List<PullRequest>>() {
                 @Override
-                public void onResponse(Call<PullRequestItemResponse> call, Response<PullRequestItemResponse> response) {
+                public void onResponse(Call<List<PullRequest>> call, Response<List<PullRequest>> response) {
 
-                    /*JSONArray json = null;
-                    HashMap<String, String> map = null;
-                    JSONObject jsonObject = new JSONObject();
-                    JSONObject innerJSONobj = new JSONObject();
-                    List<HashMap<String, String>> repoItems = null;
-
-                    try {
-
-                        //prList = response.body().getPullRequests();
-
-                        json = new JSONArray(response.body());
-
-                        for (int i = 0; i < json.length(); i++) {
-                            map = new HashMap<>();
-                            jsonObject = json.getJSONObject(i);
-                            innerJSONobj = jsonObject.getJSONObject("user");
-
-                            map.put("id", jsonObject.getString("id"));
-                            map.put("number", jsonObject.getString("number"));
-                            map.put("title", jsonObject.getString("title"));
-                            map.put("body", jsonObject.getString("body"));
-                            map.put("created_at", jsonObject.getString("created_at"));
-                            map.put("login", innerJSONobj.getString("login"));
-                            map.put("avatar_url", innerJSONobj.getString("avatar_url"));
-
-                            repoItems.add(map);
-                        }
-
-                    } catch (Exception ex) {
-                        Log.d("Error", ex.getMessage());
-                    }*/
-
-                    List<PullRequest> prList = response.body().getPullRequests();
+                    List<PullRequest> prList = response.body();
                     recyclerView.setAdapter(new PRAdapter(getApplicationContext(), prList));
                     recyclerView.smoothScrollToPosition(0);
                     swipeContainer.setRefreshing(false);
                     pd.hide();
+
                 }
 
                 @Override
-                public void onFailure(Call<PullRequestItemResponse> call, Throwable t) {
+                public void onFailure(Call<List<PullRequest>> call, Throwable t) {
                     Log.d("Error", t.getMessage());
                     Toast.makeText(PullRequestActivity.this, "Erro ao carregar os dados!", Toast.LENGTH_SHORT).show();
                     Disconnected.setVisibility(View.VISIBLE);
