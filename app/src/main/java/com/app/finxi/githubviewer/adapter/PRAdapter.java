@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.finxi.githubviewer.R;
-import com.app.finxi.githubviewer.controller.DetailActivity;
 import com.app.finxi.githubviewer.model.PullRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -39,9 +37,9 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.pr_name.setText(pullRequests.get(i).getCreated_at());
+        viewHolder.pr_name.setText(pullRequests.get(i).getTitle());
         viewHolder.pr_body.setText(pullRequests.get(i).getBody());
-        viewHolder.pr_date.setText(pullRequests.get(i).getTitle());
+        viewHolder.pr_date.setText(pullRequests.get(i).getCreated_at());
 
         viewHolder.username.setText(pullRequests.get(i).getUser().getLogin());
 
@@ -86,7 +84,7 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     context.startActivity(intent);
-                    Toast.makeText(v.getContext(), "You clicked on user" + clickedDataPR.getUser().getLogin(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Selecionado o user " + clickedDataPR.getUser().getLogin(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

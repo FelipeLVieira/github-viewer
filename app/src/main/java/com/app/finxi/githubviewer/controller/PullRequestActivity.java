@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +17,11 @@ import com.app.finxi.githubviewer.adapter.PRAdapter;
 import com.app.finxi.githubviewer.api.Client;
 import com.app.finxi.githubviewer.api.Service;
 import com.app.finxi.githubviewer.model.Item;
+import com.app.finxi.githubviewer.model.PRItemResponse;
 import com.app.finxi.githubviewer.model.PullRequest;
+import com.app.finxi.githubviewer.util.EndlessRecyclerOnScrollListener;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -32,63 +35,73 @@ public class PullRequestActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Item item;
     private SwipeRefreshLayout swipeContainer;
+    private LinearLayoutManager linearLayoutManager;
     private String repoUrl;
+    private int pageCount = 1;
+    private ArrayList<PullRequest> items = new ArrayList<>();
+    private ArrayList<PullRequest> newItems = new ArrayList<>();
+    private ArrayAdapter<PullRequest> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_repository);
+        setContentView(R.layout.activity_main);
 
         initViews();
-
-        swipeContainer = findViewById(R.id.swipeContainerRep);
-
-        swipeContainer.setColorSchemeResources(android.R.color.holo_orange_dark);
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadPrJSON();
-                Toast.makeText(PullRequestActivity.this, "Pull requests do Github recarregados", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void initViews() {
+
+        repoUrl = getIntent().getExtras().getString("repo_url");
+
+        swipeContainer = findViewById(R.id.swipeContainerRep);
+
         pd = new ProgressDialog(this);
         pd.setMessage("Carregando pull requests do Github...");
         pd.setCancelable(false);
         pd.show();
-        recyclerView = findViewById(R.id.recyclerViewRep);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.smoothScrollToPosition(0);
-        loadPrJSON();
+
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.smoothScrollToPosition(items.size() - newItems.size());
+
+        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                pd.show();
+                pageCount += 1;
+
+                loadPrJSON(repoUrl + pageCount);
+            }
+        });
+
+        loadPrJSON(repoUrl + pageCount);
     }
 
-    private void loadPrJSON() {
+    private void loadPrJSON(String apiUrl) {
         Disconnected = findViewById(R.id.disconnectedRep);
         try {
-
-            repoUrl = Objects.requireNonNull(getIntent().getExtras()).getString("repo_url");
-            Log.e("TESTANDOOOOOOOO", repoUrl);
 
             Client Client = new Client();
             Service apiService =
                     Client.getClient().create(Service.class);
-            Call<List<PullRequest>> call = apiService.getPullRequests(repoUrl);
-            call.enqueue(new Callback<List<PullRequest>>() {
+            Call<PRItemResponse> call = apiService.getPullRequests(apiUrl);
+            call.enqueue(new Callback<PRItemResponse>() {
                 @Override
-                public void onResponse(Call<List<PullRequest>> call, Response<List<PullRequest>> response) {
-
-                    List<PullRequest> prList = response.body();
-                    recyclerView.setAdapter(new PRAdapter(getApplicationContext(), prList));
-                    recyclerView.smoothScrollToPosition(0);
-                    swipeContainer.setRefreshing(false);
+                public void onResponse(Call<PRItemResponse> call, Response<PRItemResponse> response) {
+                    newItems = new ArrayList<>(response.body().getItems());
+                    items.addAll(newItems);
+                    recyclerView.setAdapter(new PRAdapter(getApplicationContext(), items));
+                    recyclerView.smoothScrollToPosition(items.size() - newItems.size());
                     pd.hide();
 
                 }
 
                 @Override
-                public void onFailure(Call<List<PullRequest>> call, Throwable t) {
+                public void onFailure(Call<PRItemResponse> call, Throwable t) {
                     Log.d("Error", t.getMessage());
                     Toast.makeText(PullRequestActivity.this, "Erro ao carregar os dados!", Toast.LENGTH_SHORT).show();
                     Disconnected.setVisibility(View.VISIBLE);
@@ -101,5 +114,10 @@ public class PullRequestActivity extends AppCompatActivity {
             Log.d("Error", e.getMessage());
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected void onPause() {
+        super.onPause();
+        pd.dismiss();
     }
 }

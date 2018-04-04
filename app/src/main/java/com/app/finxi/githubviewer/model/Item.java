@@ -3,6 +3,9 @@ package com.app.finxi.githubviewer.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Item {
 
@@ -28,6 +31,9 @@ public class Item {
 
     @SerializedName("id")
     private String repoId;
+
+    @SerializedName("has_issues")
+    private boolean hasIssues;
 
     public String getRepoName() {
         return repoName;
@@ -75,5 +81,23 @@ public class Item {
 
     public void setRepoId(String repoId) {
         this.repoId = repoId;
+    }
+
+    public boolean isHasIssues() {
+        return hasIssues;
+    }
+
+    public void setHasIssues(boolean hasIssues) {
+        this.hasIssues = hasIssues;
+    }
+
+
+    public static List<Item> createItems(int itemCount) {
+        List<Item> items = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Item item = new Item();
+            items.add(item);
+        }
+        return items;
     }
 }

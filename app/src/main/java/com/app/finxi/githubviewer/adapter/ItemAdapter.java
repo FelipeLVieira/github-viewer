@@ -15,6 +15,7 @@ import com.app.finxi.githubviewer.model.Item;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     public ItemAdapter(Context applicationContext, List<Item> itemArrayList) {
         this.context = applicationContext;
-        this.items = itemArrayList;
+        this.items = new ArrayList<>(itemArrayList);
     }
 
     @Override
@@ -40,6 +41,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         viewHolder.description.setText(items.get(i).getDescription());
         viewHolder.forks.setText(items.get(i).getForks());
         viewHolder.stars.setText(items.get(i).getStars());
+        viewHolder.possui_issue.setText(items.get(i).isHasIssues() ? "Sim" : "Não");
 
         Glide.with(context)
                 .load(items.get(i).getItemOwner().getAvatar_url())
@@ -54,7 +56,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView username, repo_name, description, forks, stars;
+        private TextView username, repo_name, description, forks, stars, possui_issue;
         private ImageView imageView;
 
 
@@ -67,6 +69,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             forks = view.findViewById(R.id.forks);
             stars = view.findViewById(R.id.stars);
             description = view.findViewById(R.id.descricao);
+            possui_issue = view.findViewById(R.id.possui_issue);
 
             //ir para a nova activity para gerar a lista de repositórios
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -74,39 +77,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 public void onClick(final View v) {
                     final int pos = getAdapterPosition();
 
-                    String repoUrl = "https://api.github.com/repos/"
-                            + items.get(pos).getItemOwner().getLogin() + "/"
-                            + items.get(pos).getRepoName() + "/issues";
+                    String repoUrl = "https://api.github.com/search/issues?q="
+                            + items.get(pos).getRepoName() + "&type=Issues&page=";
 
                     Intent intent = new Intent(context, PullRequestActivity.class);
                     intent.putExtra("repo_url", repoUrl);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-
-                    /*call.enqueue(new Callback<RepositoryItem>() {
-                        @Override
-                        public void onResponse(Call<RepositoryItem> call, Response<RepositoryItem> response) {
-                            if (pos != RecyclerView.NO_POSITION) {
-
-                                Item clickedDataItem = items.get(pos);
-
-                                Intent intent = new Intent(context, DetailActivity.class);
-                                intent.putExtra("login", items.get(pos).getItemOwner().getLogin());
-                                intent.putExtra("avatar_url", items.get(pos).getItemOwner().getAvatar_url());
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                                context.startActivity(intent);
-                                Toast.makeText(v.getContext(), "You clicked on user" + clickedDataItem.getItemOwner().getLogin(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<RepositoryItem> call, Throwable t) {
-                            Log.d("Error", t.getMessage());
-                            Toast.makeText(context, "Erro ao carregar os dados!", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });*/
                 }
             });
         }

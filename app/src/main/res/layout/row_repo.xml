@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemVH"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:layout_marginLeft="10dp"
@@ -115,6 +116,26 @@
             android:layout_marginStart="10sp"
             android:layout_toEndOf="@+id/stars_label"
             android:text="Forks"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/possui_issue_label"
+            android:layout_width="102dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/cover"
+            android:layout_below="@+id/cover"
+            android:text="Possui pull requests?"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/possui_issue"
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/possui_issue_label"
+            android:layout_below="@+id/possui_issue_label"
+            android:text="Possui pull requests?"
             android:textSize="14sp"
             android:textStyle="bold" />
 
