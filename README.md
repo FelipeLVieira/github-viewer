@@ -22,7 +22,6 @@ Para habilitar a instalação do apk no dispositivo, caminho
 "Configurações -> Segurança" do dispositivo, desativar a chave 
 ao lado de "Fontes desconhecidas" para que o aplicativo possa 
 ser instalado.
-[](https://s2.glbimg.com/dnFSuDxeynpFd6fq-VKwlwANTBs=/0x0:1448x1280/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2018/o/R/eeE3uBTmAii94QzeFwVw/b8.png)
 
 Após desativada a chave, será possível copiar e executar o arquivo
 .apk para efetuar a instalação.
@@ -30,8 +29,8 @@ Após desativada a chave, será possível copiar e executar o arquivo
 ## Estrutura utilizada
 
 O projeto foi desenvolvido com a biblioteca de retrocomatibilidade AppCompat.
-A versão mínima recomendada é a API 23 (Marshmallow) e a SDK alvo é a API 27 (Oreo)
-O projeto utiliza as bibliotecas Gson (2.8.2), Retrofit (2.4.0) e Glide (4.6.1)
+A versão mínima recomendada é a API 23 (Marshmallow) e a SDK alvo é a API 27 (Oreo).
+O projeto utiliza as bibliotecas Gson (2.8.2), Retrofit (2.4.0) e Glide (4.6.1).
 
 ## Features
 
