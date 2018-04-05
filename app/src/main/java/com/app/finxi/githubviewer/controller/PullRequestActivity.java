@@ -22,7 +22,6 @@ import com.app.finxi.githubviewer.model.PullRequest;
 import com.app.finxi.githubviewer.util.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
